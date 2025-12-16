@@ -1,3 +1,4 @@
+cat > crm/templates/crm/client_list.html <<'EOF'
 <!doctype html>
 <html lang="ru">
 <head>
@@ -7,9 +8,12 @@
 <body>
   <h1>Клиенты</h1>
 
-  <form method="get" style="margin: 12px 0;">
-    <input name="q" placeholder="Поиск по имени/телефону" value="{{ request.GET.q }}">
+  <form method="get">
+    <input type="text" name="q" placeholder="Поиск по имени/телефону" value="{{ q|default:'' }}">
     <button type="submit">Найти</button>
+    {% if q %}
+      <a href="{% url 'crm:client_list' %}">Сброс</a>
+    {% endif %}
   </form>
 
   <p><a href="{% url 'crm:client_create' %}">+ Добавить клиента</a></p>
@@ -22,6 +26,6 @@
     {% endfor %}
   </ul>
 
-  <p><a href="/">На главную</a></p>
 </body>
 </html>
+EOF
