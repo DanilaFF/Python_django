@@ -1,0 +1,17 @@
+{% extends 'crm/base.html' %}
+
+{% block content %}
+<h1>Брони столиков</h1>
+
+<ul>
+    {% for r in reservations %}
+        <li>
+            {{ r.date }} {{ r.start_time }}–{{ r.end_time }} —
+            стол {{ r.table_number }}
+            {{ r.client.name }} ({{ r.get_status_display }})
+        </li>
+    {% empty %}
+        <li>Броней пока нет.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
