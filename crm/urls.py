@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import ReservationListView
+from . import views
 
-app_name = 'crm'
+app_name = "crm"
 
 urlpatterns = [
-    path('', ReservationListView.as_view(), name='reservation_list'),
+    path("", views.ReservationListView.as_view(), name="reservation_list"),
+    path("new/", views.ReservationCreateView.as_view(), name="reservation_new"),
 ]
+
 
