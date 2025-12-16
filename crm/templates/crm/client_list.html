@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Клиенты</title>
+</head>
+<body>
+  <h1>Клиенты</h1>
+
+  <form method="get" style="margin: 12px 0;">
+    <input name="q" placeholder="Поиск по имени/телефону" value="{{ request.GET.q }}">
+    <button type="submit">Найти</button>
+  </form>
+
+  <p><a href="{% url 'crm:client_create' %}">+ Добавить клиента</a></p>
+
+  <ul>
+    {% for c in clients %}
+      <li>{{ c.name }}{% if c.phone %} — {{ c.phone }}{% endif %}</li>
+    {% empty %}
+      <li>Пока клиентов нет</li>
+    {% endfor %}
+  </ul>
+
+  <p><a href="/">На главную</a></p>
+</body>
+</html>
