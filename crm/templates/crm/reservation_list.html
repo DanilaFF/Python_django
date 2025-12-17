@@ -7,8 +7,9 @@
 <ul>
     {% for r in reservations %}
         <li>
-            {{ r.date }} {{ r.start_time }}–{{ r.end_time }} —
-            стол {{ r.table_number }}
+            {{ r.date|date:"d.m.Y" }}
+            {{ r.start_time|time:"H:i" }}–{{ r.end_time|time:"H:i" }}
+            — стол {{ r.table_number }}
             {{ r.client.name }} ({{ r.get_status_display }})
             {% if r.status == "booked" %}
                 | <a href="{% url 'crm:reservation_cancel' r.id %}">Отменить</a>
