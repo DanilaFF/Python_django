@@ -10,7 +10,11 @@
             {{ r.date }} {{ r.start_time }}–{{ r.end_time }} —
             стол {{ r.table_number }}
             {{ r.client.name }} ({{ r.get_status_display }})
+            {% if r.status == "booked" %}
+                | <a href="{% url 'crm:reservation_cancel' r.id %}">Отменить</a>
+            {% endif %}
         </li>
+
     {% empty %}
         <li>Броней пока нет.</li>
     {% endfor %}

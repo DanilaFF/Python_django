@@ -4,8 +4,13 @@ from .models import Reservation
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from .forms import ReservationForm
+from django.shortcuts import get_object_or_404, redirect
 
-
+def cancel_reservation(request, pk):
+    reservation = get_object_or_404(Reservation, pk=pk)
+    reservation.status ="canceled"
+    reservation.save()
+    return redirect("crm:reservation_list")
 
 class ReservationListView(LoginRequiredMixin, ListView):
     model = Reservation
