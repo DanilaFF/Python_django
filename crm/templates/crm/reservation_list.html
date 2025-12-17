@@ -1,0 +1,23 @@
+{% extends 'crm/base.html' %}
+
+{% block content %}
+<p><a href="{% url 'crm:reservation_new' %}">+ Создать бронь</a></p>
+<h1>Брони столиков</h1>
+
+<ul>
+    {% for r in reservations %}
+        <li>
+            {{ r.date|date:"d.m.Y" }}
+            {{ r.start_time|time:"H:i" }}–{{ r.end_time|time:"H:i" }}
+            — стол {{ r.table_number }}
+            {{ r.client.name }} ({{ r.get_status_display }})
+            {% if r.status == "booked" %}
+                | <a href="{% url 'crm:reservation_cancel' r.id %}">Отменить</a>
+            {% endif %}
+        </li>
+
+    {% empty %}
+        <li>Броней пока нет.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

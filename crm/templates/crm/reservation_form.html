@@ -1,0 +1,13 @@
+{% extends 'crm/base.html' %}
+
+{% block content %}
+<h1>Новая бронь</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Создать</button>
+</form>
+
+<p><a href="{% url 'crm:reservation_list' %}">Назад к списку</a></p>
+{% endblock %}

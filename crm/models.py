@@ -1,1 +1,36 @@
 from django.db import models
+
+
+class Client(models.Model):
+    """Клиент кафе."""
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20)
+    notes = models.TextField(blank=True)
+
+    def __str__(self) -> str:
+        return f'{self.name} ({self.phone})'
+
+
+class Reservation(models.Model):
+    """Бронь столика в кафе."""
+    STATUS_BOOKED = 'booked'
+    STATUS_CANCELED = 'canceled'
+    STATUS_COMPLETED = 'completed'
+
+    STATUS_CHOICES = [
+        (STATUS_BOOKED, 'Забронировано'),
+        (STATUS_CANCELED,'Отменено'),
+        (STATUS_COMPLETED,'Завершено'),
+    ]
+
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='reservations')
+    date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    table_number = models.PositiveSmallIntegerField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES,default=STATUS_BOOKED)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f'Стол {self.table_number} {self.date} {self.start_time}'
+
