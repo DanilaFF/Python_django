@@ -11,3 +11,16 @@ class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
         fields = ["client", "date", "start_time", "end_time", "table_number"]
+
+from .models import Client
+
+
+class ClientForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ("name", "phone")
+        labels = {
+            "name": "Имя",
+            "phone": "Телефон",
+        }
+

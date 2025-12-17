@@ -1,3 +1,6 @@
+from django.shortcuts import redirect, render
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Reservation
@@ -23,3 +26,28 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
     form_class = ReservationForm
     template_name = "crm/reservation_form.html"
     success_url = reverse_lazy("crm:reservation_list")
+
+from .forms import ClientForm
+from .models import Client
+
+
+@login_required
+def client_list(request):
+    q = (request.GET.get("q") or "").strip()
+    clients = Client.objects.all().order_by("name")
+    if q:
+        clients = clients.filter(Q(name__icontains=q) | Q(phone__icontains=q))
+    return render(request, "crm/client_list.html", {"clients": clients, "q": q})
+
+
+@login_required
+def client_create(request):
+    if request.method == "POST":
+        form = ClientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("crm:client_list")
+    else:
+        form = ClientForm()
+    return render(request, "crm/client_form.html", {"form": form})
+

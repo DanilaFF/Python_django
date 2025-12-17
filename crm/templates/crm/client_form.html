@@ -1,0 +1,20 @@
+cat > crm/templates/crm/client_form.html <<'EOF'
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Новый клиент</title>
+</head>
+<body>
+  <h1>Новый клиент</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+  </form>
+
+  <p><a href="{% url 'crm:client_list' %}">Назад к списку</a></p>
+</body>
+</html>
+EOF

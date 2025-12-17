@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Клиенты</title>
+</head>
+<body>
+  <h1>Клиенты</h1>
+
+  <form method="get" action="">
+    <label>
+      Поиск:
+      <input type="text" name="q" value="{{ q }}" placeholder="Имя или телефон">
+    </label>
+    <button type="submit">Найти</button>
+    {% if q %}
+      <a href="{% url 'crm:client_list' %}">Сбросить</a>
+    {% endif %}
+  </form>
+
+  <p><a href="{% url 'crm:client_create' %}">+ Добавить клиента</a></p>
+
+  <ul>
+    {% for c in clients %}
+      <li>{{ c.name }}{% if c.phone %} — {{ c.phone }}{% endif %}</li>
+    {% empty %}
+      {% if q %}
+        <li>Ничего не найдено по запросу “{{ q }}”.</li>
+      {% else %}
+        <li>Пока клиентов нет.</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</body>
+</html>
