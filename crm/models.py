@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Q
 
 
 class Client(models.Model):
@@ -11,14 +10,7 @@ class Client(models.Model):
     def __str__(self) -> str:
         return f'{self.name} ({self.phone})'
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["phone"],
-                condition=~Q(phone=""),
-                name="uniq_client_phone_nonempty",
-            ),
-        ]
+
 class Reservation(models.Model):
     """Бронь столика в кафе."""
     STATUS_BOOKED = 'booked'
