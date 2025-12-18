@@ -1,13 +1,22 @@
 {% extends 'crm/base.html' %}
+{% block title %}Новая бронь{% endblock %}
 
 {% block content %}
-<h1>Новая бронь</h1>
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-7">
+    <div class="card p-4">
+      <h1 class="h4 mb-1">Новая бронь</h1>
+      <p class="muted mb-4">Заполните данные и сохраните.</p>
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Создать</button>
-</form>
-
-<p><a href="{% url 'crm:reservation_list' %}">Назад к списку</a></p>
+      <form method="post" class="vstack gap-3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-dark">Сохранить</button>
+          <a class="btn btn-outline-secondary" href="/">Назад</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

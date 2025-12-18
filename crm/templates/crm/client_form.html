@@ -1,20 +1,22 @@
-cat > crm/templates/crm/client_form.html <<'EOF'
-<!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <title>Новый клиент</title>
-</head>
-<body>
-  <h1>Новый клиент</h1>
+{% extends 'crm/base.html' %}
+{% block title %}Новый клиент{% endblock %}
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Сохранить</button>
-  </form>
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-6">
+    <div class="card p-4">
+      <h1 class="h4 mb-1">Новый клиент</h1>
+      <p class="muted mb-4">Заполните данные и сохраните.</p>
 
-  <p><a href="{% url 'crm:client_list' %}">Назад к списку</a></p>
-</body>
-</html>
-EOF
+      <form method="post" class="vstack gap-3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-dark">Сохранить</button>
+          <a class="btn btn-outline-secondary" href="{% url 'crm:client_list' %}">Назад</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
