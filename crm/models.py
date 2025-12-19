@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import time as dt_time
 
 
 class Client(models.Model):
@@ -22,7 +23,7 @@ class Reservation(models.Model):
         (STATUS_CANCELED,'Отменено'),
         (STATUS_COMPLETED,'Завершено'),
     ]
-
+    guests = models.PositiveSmallIntegerField("Гостей", default=1)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='reservations')
     date = models.DateField()
     start_time = models.TimeField()
@@ -34,3 +35,12 @@ class Reservation(models.Model):
     def __str__(self) -> str:
         return f'Стол {self.table_number} {self.date} {self.start_time}'
 
+@property
+def time(self):
+    st = self.start_time.strftime("%H:%M") if self.start_time else ""
+    et = self.end_time.strftime("%H:%M") if self.end_time else ""
+    return f"{st}–{et}".strip("–")
+
+@property
+def client_name(self):
+    return self.client.name if self.client else ""
