@@ -2,14 +2,19 @@ from django.urls import path
 from . import views
 
 app_name = "crm"
+
 urlpatterns = [
-    path("", views.public_reservation_create, name="home"),
-    path("reserve/", views.public_reservation_create, name="public_reservation"),
-    path("reserve/success/", views.reservation_success, name="reservation_success"),
-    path("crm/schedule/", views.reservation_schedule, name="reservation_schedule"),
-    path("crm/", views.ReservationListView.as_view(), name="reservation_list"),
-    path("crm/new/", views.ReservationCreateView.as_view(), name="reservation_new"),
-    path("crm/cancel/<int:pk>/", views.cancel_reservation, name="reservation_cancel"),
+    # Публичная часть
+    path("", views.public_reservation_create, name="public_reservation"),
+    path("success/", views.reservation_success, name="reservation_success"),
+
+    # Закрытая часть (только по логину)
+    path("reservations/", views.reservation_list, name="reservation_list"),
+    path("reservations/new/", views.reservation_create, name="reservation_new"),
+    path("reservations/<int:pk>/cancel/", views.cancel_reservation, name="cancel_reservation"),
+
+    path("schedule/", views.reservation_schedule, name="reservation_schedule"),
+
     path("clients/", views.client_list, name="client_list"),
     path("clients/new/", views.client_create, name="client_create"),
 ]

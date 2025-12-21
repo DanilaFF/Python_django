@@ -1,28 +1,43 @@
 {% extends "crm/base.html" %}
+{% block title %}Бронирования по дням{% endblock %}
+
 {% block content %}
+<h1 class="h3 mb-3">Бронирования по дням</h1>
 
-<h1>Бронирования по дням</h1>
-
-<form method="get" style="margin-bottom: 20px;">
-    <input type="date" name="date" value="{{ selected_date }}">
-    <button type="submit">Показать</button>
+<form method="get" class="d-flex gap-2 align-items-center mb-3">
+  <input type="date" name="date" class="form-control" style="max-width: 220px"
+         value="{% if selected_date %}{{ selected_date|date:'Y-m-d' }}{% endif %}">
+  <button class="btn btn-outline-dark" type="submit">Показать</button>
+  <a class="btn btn-dark" href="{% url 'crm:reservation_list' %}">К списку</a>
 </form>
 
-{% if tables %}
-    {% for table, reservations in tables.items %}
-        <h3>Стол {{ table }}</h3>
-        <ul>
-            {% for r in reservations %}
-                <li>
-                    {{ r.start_time }}–{{ r.end_time }}
-                    — {{ r.client.name }}
-                    ({{ r.guests }} гостей)
-                </li>
-            {% endfor %}
-        </ul>
-    {% endfor %}
+{% if not selected_date %}
+  <div class="muted">Выбери дату и нажми “Показать”.</div>
 {% else %}
-    <p>На эту дату бронирований нет.</p>
+  {% if schedule %}
+    {% for table, reservations in schedule.items %}
+      <div class="card card-soft p-3 mb-3">
+        <h2 class="h5 mb-2">Стол {{ table }}</h2>
+        <ul class="mb-0">
+          {% for r in reservations %}
+            <li class="mb-1">
+              {{ r.start_time|time:"H:i" }}–{{ r.end_time|time:"H:i" }}
+              — {{ r.client.name }} ({{ r.guests }} гостей)
+              {% if r.status == 'booked' %}
+                <a class="btn btn-outline-danger btn-sm ms-2"
+                   href="{% url 'crm:cancel_reservation' r.pk %}">
+                  Отменить
+                </a>
+              {% else %}
+                <span class="badge text-bg-secondary ms-2">Отменено/завершено</span>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="muted">На эту дату бронирований нет.</div>
+  {% endif %}
 {% endif %}
-
 {% endblock %}

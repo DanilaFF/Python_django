@@ -8,6 +8,10 @@
     <h1>Спасибо!</h1>
     <p>Ваша бронь успешно принята. Мы свяжемся с вами при необходимости.</p>
 
-    <a href="/reserve/">Создать ещё одну бронь</a>
+    <a href="{% url 'crm:reservation_new' %}" class="btn btn-dark">
+  Добавить ещё одну бронь
+</a>
+    <a href="{% url 'crm:public_reservation' %}" class="btn btn-outline-dark">
+  На главную страницу бронирования
 </body>
 </html>
