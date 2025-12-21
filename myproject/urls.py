@@ -1,14 +1,13 @@
 from django.contrib import admin
-from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import include, path
+from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # Админка
+    path("admin/", admin.site.urls),
 
-    # страницы логина/логаута
-    path('login/', LoginView.as_view(template_name='crm/login.html'), name='login'),
-    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    # 🔐 АУТЕНТИФИКАЦИЯ (login / logout)
+    path("accounts/", include("django.contrib.auth.urls")),
 
-    # наше приложение CRM
-    path('', include('crm.urls')),
+    # CRM
+    path("", include(("crm.urls", "crm"), namespace="crm")),
 ]
