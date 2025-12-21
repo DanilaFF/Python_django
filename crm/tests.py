@@ -3,6 +3,7 @@ from django.test import TestCase
 from .forms import ReservationForm
 from .models import Client, Reservation
 
+
 class ReservationFormTests(TestCase):
     def test_saves_reservation_with_new_client(self):
         form = ReservationForm(
@@ -16,14 +17,12 @@ class ReservationFormTests(TestCase):
         )
         self.assertTrue(form.is_valid(), form.errors)
         reservation = form.save()
-
         self.assertEqual(Client.objects.count(), 1)
         self.assertEqual(reservation.client.name, 'Иван')
         self.assertEqual(Reservation.objects.count(), 1)
 
     def test_reuses_existing_client_by_name(self):
         existing = Client.objects.create(name='Мария', phone='123')
-
         form = ReservationForm(
             data={
                 'client_name': 'Мария',
@@ -35,7 +34,6 @@ class ReservationFormTests(TestCase):
         )
         self.assertTrue(form.is_valid(), form.errors)
         reservation = form.save()
-
         self.assertEqual(Client.objects.count(), 1)
         self.assertEqual(reservation.client_id, existing.id)
 
