@@ -9,6 +9,7 @@
   </div>
 
   <div class="d-flex gap-2">
+    <a class="btn btn-outline-dark" href="{% url 'crm:reservation_schedule' %}">По дням</a>
     <a class="btn btn-dark" href="{% url 'crm:reservation_new' %}">+ Новая бронь</a>
   </div>
 </div>
@@ -31,32 +32,25 @@
       <tr>
         <td>{{ r.date|date:"d.m.Y" }}</td>
 
-        <td>
-          {{ r.start_time|time:"H:i" }}–{{ r.end_time|time:"H:i" }}
-        </td>
+        <td>{{ r.start_time|time:"H:i" }}–{{ r.end_time|time:"H:i" }}</td>
 
         <td>{{ r.guests }}</td>
 
-        <td>
-          {% if r.client %}
-            {{ r.client.name }}
-          {% else %}
-            <span class="muted">—</span>
-          {% endif %}
-        </td>
+        <td>{{ r.client.name }}</td>
 
         <td>
-          {% if r.status == 'active' or r.status == 'booked' %}
-            <span class="badge text-bg-success">{{ r.get_status_display|default:r.status }}</span>
+          {% if r.status == 'booked' %}
+            <span class="badge text-bg-success">Забронировано</span>
+          {% elif r.status == 'canceled' %}
+            <span class="badge text-bg-secondary">Отменено</span>
           {% else %}
-            <span class="badge text-bg-secondary">{{ r.get_status_display|default:r.status }}</span>
+            <span class="badge text-bg-dark">Завершено</span>
           {% endif %}
         </td>
 
         <td class="text-end">
-          {% if r.status == 'active' or r.status == 'booked' %}
-            <a class="btn btn-outline-danger btn-sm"
-               href="{% url 'crm:reservation_cancel' r.pk %}">
+          {% if r.status == 'booked' %}
+            <a href="{% url 'crm:cancel_reservation' r.pk %}" class="btn btn-outline-danger btn-sm">
               Отменить
             </a>
           {% else %}
