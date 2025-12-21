@@ -6,7 +6,6 @@ class ReservationForm(forms.ModelForm):
     date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
     start_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
     end_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
-
     class Meta:
         model = Reservation
         fields = [
@@ -32,11 +31,9 @@ class PublicReservationForm(forms.ModelForm):
             }
         ),
     )
-
     date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
     start_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
     end_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
-
     class Meta:
         model = Reservation
         fields = [

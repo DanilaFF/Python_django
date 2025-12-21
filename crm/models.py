@@ -3,7 +3,6 @@ from datetime import time as dt_time
 
 
 class Client(models.Model):
-    """Клиент кафе."""
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20)
     notes = models.TextField(blank=True)
@@ -13,11 +12,7 @@ class Client(models.Model):
 
 
 class Reservation(models.Model):
-    """Бронь столика в кафе."""
-    STATUS_BOOKED = 'booked'
-    STATUS_CANCELED = 'canceled'
-    STATUS_COMPLETED = 'completed'
-
+    STATUS_BOOKED, STATUS_CANCELED, STATUS_COMPLETED  = 'booked', 'canceled', 'completed'
     STATUS_CHOICES = [
         (STATUS_BOOKED, 'Забронировано'),
         (STATUS_CANCELED,'Отменено'),
