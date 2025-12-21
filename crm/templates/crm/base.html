@@ -29,17 +29,40 @@
 
     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="/">Брони</a></li>
-        <li class="nav-item"><a class="nav-link" href="/clients/">Клиенты</a></li>
-        <li class="nav-item"><a class="nav-link" href="/admin/">Админка</a></li>
+
+        <!-- ПУБЛИЧНАЯ БРОНЬ -->
+        <li class="nav-item">
+          <a class="nav-link" href="/">Бронь</a>
+        </li>
+
+        <!-- КАЛЕНДАРЬ БРОНИРОВАНИЙ (ГЛАВНОЕ ДЛЯ КАФЕ) -->
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'crm:reservation_schedule' %}">Бронирования</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'crm:client_list' %}">Клиенты</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/">Админка</a>
+        </li>
+        {% endif %}
       </ul>
 
       <ul class="navbar-nav ms-auto">
         {% if request.user.is_authenticated %}
-          <li class="nav-item"><span class="nav-link muted">Пользователь: {{ request.user.username }}</span></li>
-          <li class="nav-item"><a class="btn btn-outline-dark btn-sm" href="{% url 'logout' %}">Выйти</a></li>
+          <li class="nav-item">
+            <span class="nav-link muted">Пользователь: {{ request.user.username }}</span>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-dark btn-sm" href="{% url 'logout' %}">Выйти</a>
+          </li>
         {% else %}
-          <li class="nav-item"><a class="btn btn-dark btn-sm" href="{% url 'login' %}">Войти</a></li>
+          <li class="nav-item">
+            <a class="btn btn-dark btn-sm" href="{% url 'login' %}">Войти</a>
+          </li>
         {% endif %}
       </ul>
     </div>
@@ -50,7 +73,9 @@
   {% if messages %}
     <div class="mb-3">
       {% for message in messages %}
-        <div class="alert alert-info mb-2" role="alert">{{ message }}</div>
+        <div class="alert alert-info mb-2" role="alert">
+          {{ message }}
+        </div>
       {% endfor %}
     </div>
   {% endif %}

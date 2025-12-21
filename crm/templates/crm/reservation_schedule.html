@@ -1,0 +1,28 @@
+{% extends "crm/base.html" %}
+{% block content %}
+
+<h1>Бронирования по дням</h1>
+
+<form method="get" style="margin-bottom: 20px;">
+    <input type="date" name="date" value="{{ selected_date }}">
+    <button type="submit">Показать</button>
+</form>
+
+{% if tables %}
+    {% for table, reservations in tables.items %}
+        <h3>Стол {{ table }}</h3>
+        <ul>
+            {% for r in reservations %}
+                <li>
+                    {{ r.start_time }}–{{ r.end_time }}
+                    — {{ r.client.name }}
+                    ({{ r.guests }} гостей)
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% else %}
+    <p>На эту дату бронирований нет.</p>
+{% endif %}
+
+{% endblock %}
