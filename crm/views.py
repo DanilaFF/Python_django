@@ -28,14 +28,13 @@ def reservation_success(request):
 
 @login_required
 def reservation_list(request):
-    """СПИСОК ВСЕХ БРОНЕЙ (то, что ты хочешь во вкладке 'Бронирования')."""
     reservations = Reservation.objects.select_related("client").order_by("-date", "-start_time", "-created_at")
     return render(request, "crm/reservation_list.html", {"reservations": reservations})
 
 
 @login_required
 def reservation_create(request):
-    """Создание брони в закрытой части (для кафе)."""
+    """Создание брони в закрытой части для кафе"""
     if request.method == "POST":
         form = ReservationForm(request.POST)
         if form.is_valid():
@@ -49,7 +48,7 @@ def reservation_create(request):
 
 @login_required
 def cancel_reservation(request, pk: int):
-    """Отменить бронь (мягко — меняем статус)."""
+    """Отмена брони"""
     r = get_object_or_404(Reservation, pk=pk)
     r.status = Reservation.STATUS_CANCELED
     r.save(update_fields=["status"])
@@ -60,7 +59,7 @@ def cancel_reservation(request, pk: int):
 
 @login_required
 def reservation_schedule(request):
-    """Брони по дням + возможность отменять."""
+    """Брони по дням + возможность отменять"""
     date_str = request.GET.get("date")
     selected_date = None
 
